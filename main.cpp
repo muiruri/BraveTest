@@ -44,7 +44,6 @@ void countCars(string plate1, string plate2) {
     int x1 = getCarsFromStart(plate1Arr);
     int x2 = getCarsFromStart(plate2Arr);
     
-    cout << "Found " + std::to_string(x1) + " and " + std::to_string(x2) << endl;
     int total = x1 - x2;
     std::cout << "Number of Cars bought between " + plate1 + " and " + plate2 + " is " + to_string(total) << endl;
 }
@@ -57,10 +56,8 @@ void countCars(string plate1, string plate2) {
  */
 int getCarsFromStart(char *plate) {
     int start = 64;
-    int end = 90;
     
     int last = +plate[7] - start;
-    cout << "Last " + to_string(last) << endl;
     
     char number[3];
     number[0] = plate[4];
@@ -69,11 +66,9 @@ int getCarsFromStart(char *plate) {
     int count1 = ((last - 1) * 24) + std::stoi(number);
     
     int letter = +plate[2] - start;
-    cout << "Letter 1 " + to_string(letter) << endl;
     int letter1Cars = (letter - 1) * 999 * 24;
     
     int letter2 = +plate[1] - start;
-    cout << "Letter 2 " + to_string(letter2) << endl;
     int letter2Cars =  (letter2 - 1) * 999 * 24 * 24;
     
     int total = letter2Cars + letter1Cars + count1;
