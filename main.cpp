@@ -51,27 +51,67 @@ void countCars(string plate1, string plate2) {
 /**
  *  This function counts the number of cars from the beginning of time to the current plate.
  *  It assumes the plates start from KAA 001A
+ *  The Logic is such that
+ *      Take the last character code (x) and count the number of cars from A then add the numeric part to get the number of cars 
+ *      from K*** 001A i.e (x - 1) * 24 + numeric part
+ * 
+ *      Take the last character code (y) in K** and get the number of cars from K*A
+ *          i.e (y - 1) * 999 * 24
+ * 
+ *      Take the middle character code (z) in K** and get the number of cars from KAA.
+ *          i.e (z - 1) * 999 * 24 * 24
+ * 
+ *      Sum the 3 together to get the number of cars from KAA 001A to the given plate.
+ *      
+ *      A is given the value 1 and Z is given the value 26.
+ *      Subtract 64 from the character decimal code to get the value of the given character.
+ * 
+ *      If the plate being checked is after KAF, we subtract the number of cars represented by a full place cycle. KAF 001A - KAF 999Z = 23976 
+ *      
  * @param plate - The plate number
  * @return - the number of cars from start to the given plate.
  */
 int getCarsFromStart(char *plate) {
     int start = 64;
     
-    int last = +plate[7] - start;
+    int x = +plate[7] - start;
+    if(x > 9) {
+        x = x - 1; 
+    }
+    if(x > 15) {
+        x = x - 1; 
+    }
     
     char number[3];
     number[0] = plate[4];
     number[1] = plate[5];
     number[2] = plate[6];
-    int count1 = ((last - 1) * 24) + std::stoi(number);
+    int count1 = ((x - 1) * 24) + std::stoi(number);
     
-    int letter = +plate[2] - start;
-    int letter1Cars = (letter - 1) * 999 * 24;
+    int y = +plate[2] - start;
+    if(y > 9) {
+        y = y - 1; 
+    }
+    if(y > 15) {
+        y = y - 1; 
+    }
+    int letter1Cars = (y - 1) * 999 * 24;
     
-    int letter2 = +plate[1] - start;
-    int letter2Cars =  (letter2 - 1) * 999 * 24 * 24;
+    int z = +plate[1] - start;
+    if(z > 9) {
+        z = z - 1; 
+    }
+    if(z > 15) {
+        z = z - 1; 
+    }
+    int letter2Cars =  (z - 1) * 999 * 24 * 24;
     
-    int total = letter2Cars + letter1Cars + count1;
+    int kafCars = 0;
+    if(y > 6 && z >= 1) { // If the plate is above KAF
+        kafCars = 23976;
+    }
+    
+    int total = letter2Cars + letter1Cars + count1 - kafCars;
     return total;
 }
 
