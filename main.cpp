@@ -83,7 +83,7 @@ int getCarsFromStart(char *plate) {
  * @param sentence
  */
 void getNumberPlate(string sentence) {
-    std::regex r("[A-Z]{3}\\s[0-9]{3}[A-Z]{0,1}"); // entire match will be 2 numbers
+    std::regex r("(?!KAF)[A-HJ-NP-Z]{3}\\s[0-9]{3}[A-HJ-NP-Z]{0,1}"); // entire match will be 2 numbers
     std::smatch m;
     std::regex_search(sentence, m, r);
     
